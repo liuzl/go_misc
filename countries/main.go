@@ -7,11 +7,6 @@ import (
 )
 
 type NameInfo struct {
-	Common   string `json:"common"`
-	Official string `json:"official"`
-}
-
-type NameNode struct {
 	Common   string               `json:"common"`
 	Official string               `json:"official"`
 	Native   map[string]*NameInfo `json:"native"`
