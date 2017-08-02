@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/tkuchiki/parsetime"
@@ -29,6 +30,8 @@ func main() {
 				log.Fatal(err)
 			}
 			fmt.Println(t)
+			j, _ := json.Marshal(t)
+			fmt.Println(string(j))
 		}
 	}
 }
