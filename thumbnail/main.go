@@ -4,7 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/nfnt/resize"
+	"image"
+	_ "image/gif"
 	"image/jpeg"
+	_ "image/png"
 	"log"
 	"os"
 )
@@ -22,11 +25,12 @@ func main() {
 	}
 
 	// decode jpeg into image.Image
-	img, err := jpeg.Decode(file)
+	img, t, err := image.Decode(file)
 	if err != nil {
 		log.Fatal(err)
 	}
 	file.Close()
+	fmt.Println(t)
 
 	// resize to width 1000 using Lanczos resampling
 	// and preserve aspect ratio
