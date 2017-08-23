@@ -30,4 +30,18 @@ func main() {
 
 	//fmt.Printf("%q", dump)
 	fmt.Println(string(dump))
+
+	resp, err = http.Get("http://zliu.org")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	dump, err = httputil.DumpResponse(resp, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//fmt.Printf("%q", dump)
+	fmt.Println(string(dump))
 }
