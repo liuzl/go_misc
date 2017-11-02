@@ -11,7 +11,17 @@ import (
 	"os"
 )
 
-func gzFile() {
+type Contact struct {
+	Phone string `json:"b2"`
+	Name  string `json:"b1"`
+}
+
+type Item struct {
+	CountryCode string    `json:"a3"`
+	Contacts    []Contact `json:"b"`
+}
+
+func main() {
 	filename := flag.String("file", "./file.txt.gz", "file to read")
 	flag.Parse()
 	file, err := os.Open(*filename)
@@ -25,21 +35,18 @@ func gzFile() {
 	}
 	br := bufio.NewReader(gr)
 	i := 0
+	var item Item
 	for {
-		line, _, c := br.ReadLine()
+		line, c := br.ReadBytes('\n')
 		if c == io.EOF {
 			break
 		}
 		i++
-		fmt.Println(string(line))
-		item := new(interface{})
-		err = json.Unmarshal(line, item)
+		err = json.Unmarshal(line, &item)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
+		fmt.Println(item)
+		fmt.Println("\n\n\n")
 	}
-}
-
-func main() {
-	gzFile()
 }
