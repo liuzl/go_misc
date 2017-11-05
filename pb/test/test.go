@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./example"
+	"../example"
 	"github.com/golang/protobuf/proto"
 	"log"
 )
