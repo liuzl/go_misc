@@ -6,9 +6,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/ttacon/libphonenumber"
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
 type Contact struct {
@@ -46,7 +48,14 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
-		fmt.Println(item)
-		fmt.Println("\n\n\n")
+		cc := strings.ToUpper(item.CountryCode)
+		for _, contact := range item.Contacts {
+			fmt.Println(contact.Phone)
+			number, err := libphonenumber.Parse(contact.Phone, cc)
+			if err != nil {
+				log.Println("ERROR", err)
+			}
+			fmt.Println(number, contact.Name)
+		}
 	}
 }
