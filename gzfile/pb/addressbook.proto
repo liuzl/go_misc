@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package pb;
+
+message Person {
+    string name = 1;
+    string number = 2;
+}
+
+message Location {
+    float longitude = 1;
+    float latitude = 2;
+}
+
+message AddressBook {
+    string imei = 1;
+    string number = 2;
+    string cc = 3;
+    int64 ts = 4;
+    Location loc = 5;
+    repeated Person people = 6;
+}
