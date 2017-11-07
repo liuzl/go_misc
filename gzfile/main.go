@@ -4,12 +4,16 @@ import (
 	"./pb"
 	"bufio"
 	"compress/gzip"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
+	"github.com/liuzl/filestore"
 	"github.com/liuzl/store"
+	"github.com/satori/go.uuid"
 	"github.com/ttacon/libphonenumber"
 	"io"
 	"os"
@@ -35,12 +39,21 @@ type Item struct {
 	Ts          string    `json:"ts"`
 }
 
+func MD5(text string) string {
+	h := md5.New()
+	h.Write([]byte(text))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
 func main() {
 	defer glog.Flush()
 
 	filename := flag.String("file", "./file.txt.gz", "file to read")
 	storename := flag.String("dir", "./data", "leveldb dir")
+	contactsfile := flag.String("contacts", "./contacts", "contacts dir")
 	flag.Parse()
+
+	fss := make(map[string]*filestore.FileStore)
 
 	db, err := store.NewLevelStore(*storename)
 	if err != nil {
@@ -60,6 +73,7 @@ func main() {
 	br := bufio.NewReader(gr)
 	i := 0
 	var item Item
+	m := make(map[string]int)
 	for {
 		line, c := br.ReadBytes('\n')
 		if c == io.EOF {
@@ -70,6 +84,13 @@ func main() {
 		if err != nil {
 			glog.Error(err)
 			continue
+		}
+		if len(item.Contacts) == 0 {
+			continue
+		}
+		if item.IMEI == "" {
+			glog.Error("IMEI is null")
+			item.IMEI = uuid.NewV4().String()
 		}
 		//glog.Info(string(line))
 		cc := strings.ToUpper(item.CountryCode)
@@ -90,29 +111,84 @@ func main() {
 			loc := &pb.Location{}
 			fmt.Sscanf(item.Loc, "%f_%f", &loc.Latitude, &loc.Longitude)
 			ab.Loc = loc
-			glog.Info(ab)
+			//glog.Info(ab)
 		}
+		set := make(map[string]bool)
 		for _, contact := range item.Contacts {
 			person := &pb.Person{Name: contact.Name}
 			number, err := libphonenumber.Parse(contact.Phone, cc)
+			valid := true
 			if err != nil || !libphonenumber.IsValidNumber(number) {
 				person.Number = contact.Phone
+				valid = false
 			} else {
 				person.Number = libphonenumber.Format(number, libphonenumber.E164)
 			}
+
+			// dedup
+			if _, has := set[person.Number+"\t"+person.Name]; has {
+				continue
+			} else {
+				set[person.Number+"\t"+person.Name] = true
+			}
+
 			ab.People = append(ab.People, person)
+
+			key := MD5(person.Number)
+			fn := fmt.Sprintf("%s/%s", *contactsfile, key[:2])
+			fs, has := fss[fn]
+			if !has {
+				fs, err = filestore.NewFileStore(fn)
+				if err != nil {
+					glog.Fatal(err)
+				}
+				fss[fn] = fs
+				defer fs.Close()
+			}
+
+			name := strings.Replace(person.Name, "\t", " ", -1)
+			name = strings.Replace(name, "\n", " ", -1)
+			one := fmt.Sprintf("%s\t%s\t%s\t%s", person.Number, cc, ab.Imei, name)
+			fs.WriteLine([]byte(one))
 		}
-		if has, _ := db.Has(ab.Imei); has {
-			glog.Info("dup for ", ab.Imei)
-			continue
+
+		// deal with duplications
+		save := false
+		l := len(ab.People)
+		if cnt, has := m[ab.Imei]; has {
+			if cnt < l {
+				save = true
+				m[ab.Imei] = l
+			}
+		} else {
+			if has, _ = db.Has(ab.Imei); has {
+				// we have this imei twice at least
+				oldAb := &pb.AddressBook{}
+				in, _ := db.Get(ab.Imei)
+				if err = proto.Unmarshal(in, oldAb); err != nil {
+					glog.Error(err)
+					save = true
+				} else {
+					m[ab.Imei] = len(oldAb.People)
+					if l > len(oldAb.People) {
+						save = true
+						m[ab.Imei] = l
+					}
+				}
+			} else {
+				save = true
+			}
 		}
-		out, err := proto.Marshal(ab)
-		if err != nil {
-			glog.Fatal(err)
-		}
-		err = db.Put(ab.Imei, out)
-		if err != nil {
-			glog.Fatal(err)
+
+		if save {
+			out, err := proto.Marshal(ab)
+			if err != nil {
+				glog.Fatal(err)
+			}
+			err = db.Put(ab.Imei, out)
+			if err != nil {
+				glog.Fatal(err)
+			}
 		}
 	}
 }
