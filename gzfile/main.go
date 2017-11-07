@@ -117,10 +117,8 @@ func main() {
 		for _, contact := range item.Contacts {
 			person := &pb.Person{Name: contact.Name}
 			number, err := libphonenumber.Parse(contact.Phone, cc)
-			valid := true
 			if err != nil || !libphonenumber.IsValidNumber(number) {
 				person.Number = contact.Phone
-				valid = false
 			} else {
 				person.Number = libphonenumber.Format(number, libphonenumber.E164)
 			}
@@ -133,23 +131,6 @@ func main() {
 			}
 
 			ab.People = append(ab.People, person)
-
-			key := MD5(person.Number)
-			fn := fmt.Sprintf("%s/%s", *contactsfile, key[:2])
-			fs, has := fss[fn]
-			if !has {
-				fs, err = filestore.NewFileStore(fn)
-				if err != nil {
-					glog.Fatal(err)
-				}
-				fss[fn] = fs
-				defer fs.Close()
-			}
-
-			name := strings.Replace(person.Name, "\t", " ", -1)
-			name = strings.Replace(name, "\n", " ", -1)
-			one := fmt.Sprintf("%s\t%s\t%s\t%s", person.Number, cc, ab.Imei, name)
-			fs.WriteLine([]byte(one))
 		}
 
 		// deal with duplications
@@ -188,6 +169,24 @@ func main() {
 			err = db.Put(ab.Imei, out)
 			if err != nil {
 				glog.Fatal(err)
+			}
+			for _, person := range ab.People {
+				key := MD5(person.Number)
+				fn := fmt.Sprintf("%s/%s", *contactsfile, key[:2])
+				fs, has := fss[fn]
+				if !has {
+					fs, err = filestore.NewFileStore(fn)
+					if err != nil {
+						glog.Fatal(err)
+					}
+					fss[fn] = fs
+					defer fs.Close()
+				}
+
+				name := strings.Replace(person.Name, "\t", " ", -1)
+				name = strings.Replace(name, "\n", " ", -1)
+				one := fmt.Sprintf("%s\t%s\t%s\t%s", person.Number, cc, ab.Imei, name)
+				fs.WriteLine([]byte(one))
 			}
 		}
 	}
