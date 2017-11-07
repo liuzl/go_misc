@@ -18,8 +18,11 @@ func main() {
 		glog.Fatal(err)
 	}
 	defer db.Close()
+	cnt := 0
 	err = db.ForEach(nil, func(key, value []byte) (bool, error) {
-		glog.Info(string(key))
+		//glog.Info(string(key))
+		cnt += 1
 		return true, nil
 	})
+	glog.Info(cnt)
 }
