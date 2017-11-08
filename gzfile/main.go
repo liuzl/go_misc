@@ -119,6 +119,7 @@ func main() {
 			number, err := libphonenumber.Parse(contact.Phone, cc)
 			if err != nil || !libphonenumber.IsValidNumber(number) {
 				person.Number = contact.Phone
+				continue
 			} else {
 				person.Number = libphonenumber.Format(number, libphonenumber.E164)
 			}
@@ -161,7 +162,7 @@ func main() {
 			}
 		}
 
-		if save {
+		if save && len(ab.People) > 0 {
 			out, err := proto.Marshal(ab)
 			if err != nil {
 				glog.Fatal(err)
