@@ -16,7 +16,8 @@ message AddressBook {
     string imei = 1;
     string number = 2;
     string cc = 3;
-    int64 ts = 4;
-    Location loc = 5;
-    repeated Person people = 6;
+    string ip = 4;
+    int64 ts = 5;
+    Location loc = 6;
+    repeated Person people = 7;
 }

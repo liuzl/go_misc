@@ -12,6 +12,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"github.com/liuzl/filestore"
+	"github.com/liuzl/ip2loc"
 	"github.com/liuzl/store"
 	"github.com/satori/go.uuid"
 	"github.com/ttacon/libphonenumber"
@@ -37,6 +38,7 @@ type Item struct {
 	CountryCode string    `json:"a3"`
 	Contacts    []Contact `json:"b"`
 	Ts          string    `json:"ts"`
+	Ip          string    `json:"client"`
 }
 
 func MD5(text string) string {
@@ -94,7 +96,42 @@ func main() {
 		}
 		//glog.Info(string(line))
 		cc := strings.ToUpper(item.CountryCode)
-		ab := &pb.AddressBook{Imei: item.IMEI, Cc: cc}
+		if cc == "" {
+			// cc is null, try to predict it by using its contacts
+			countCc := make(map[string]int)
+			for _, contact := range item.Contacts {
+				contact.Phone = strings.TrimSpace(contact.Phone)
+				if contact.Phone == "" {
+					continue
+				}
+				number, err := libphonenumber.Parse(contact.Phone, "ZZ")
+				if err != nil || !libphonenumber.IsValidNumber(number) {
+					continue
+				}
+				c := libphonenumber.GetRegionCodeForNumber(number)
+				if cnt, has := countCc[c]; has {
+					countCc[c] = cnt + 1
+				} else {
+					countCc[c] = 1
+				}
+			}
+			if len(countCc) == 0 {
+				cc, _ := ip2loc.Find(item.Ip)
+				if cc == "" {
+					cc = "ZZ" // still unkonw
+				}
+			} else {
+				max := 0
+				for k, v := range countCc {
+					if v > max {
+						max = v
+						cc = k
+					}
+				}
+			}
+		}
+
+		ab := &pb.AddressBook{Imei: item.IMEI, Cc: cc, Ip: item.Ip}
 		number, err := libphonenumber.Parse(item.Phone, cc)
 		if err != nil || !libphonenumber.IsValidNumber(number) {
 			ab.Number = item.Phone
@@ -119,7 +156,6 @@ func main() {
 			number, err := libphonenumber.Parse(contact.Phone, cc)
 			if err != nil || !libphonenumber.IsValidNumber(number) {
 				person.Number = contact.Phone
-				continue
 			} else {
 				person.Number = libphonenumber.Format(number, libphonenumber.E164)
 			}
