@@ -11,7 +11,8 @@ import (
 )
 
 func main() {
-	re := regexp.MustCompile(`^[\d\+\.]+$`)
+	//re := regexp.MustCompile(`^[\d\+\.]+$`)
+	re := regexp.MustCompile(`\p{Han}+`)
 	br := bufio.NewReader(os.Stdin)
 	for {
 		line, c := br.ReadBytes('\n')
@@ -19,7 +20,7 @@ func main() {
 			break
 		}
 		str := strings.TrimSpace(string(line))
-		fmt.Println(re.MatchString(str), str)
+		fmt.Println(re.FindAllString(str, -1), str)
 	}
 
 	var arrs [][]string
