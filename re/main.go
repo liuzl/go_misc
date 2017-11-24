@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"regexp"
 	"strings"
 )
@@ -20,4 +21,8 @@ func main() {
 		str := strings.TrimSpace(string(line))
 		fmt.Println(re.MatchString(str), str)
 	}
+
+	var arrs [][]string
+	fmt.Println(reflect.TypeOf(arrs))
+	//fmt.Println(arrs...)
 }

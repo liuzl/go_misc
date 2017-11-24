@@ -49,53 +49,6 @@ func promptForAddress(r io.Reader) (*pb.Person, error) {
 		if phone == "" {
 			break
 		}
-		// The
-		// PhoneNumber
-		// message
-		// type
-		// is
-		// nested
-		// within
-		// the
-		// Person
-		// message
-		// in
-		// the
-		// .proto
-		// file.
-		// This
-		// results
-		// in
-		// a
-		// Go
-		// struct
-		// named
-		// using
-		// the
-		// name
-		// of
-		// the
-		// parent
-		// prefixed
-		// to
-		// the
-		// name
-		// of
-		// the
-		// nested
-		// message.
-		// Just
-		// as
-		// with
-		// pb.Person,
-		// it
-		// can
-		// be
-		// created
-		// like
-		// any
-		// other
-		// struct.
 		pn := &pb.Person_PhoneNumber{
 			Number: phone,
 		}
@@ -107,18 +60,6 @@ func promptForAddress(r io.Reader) (*pb.Person, error) {
 		}
 		ptype = strings.TrimSpace(ptype)
 
-		// A
-		// proto
-		// enum
-		// results
-		// in
-		// a
-		// Go
-		// constant
-		// for
-		// each
-		// enum
-		// value.
 		switch ptype {
 		case "mobile":
 			pn.Type = pb.Person_MOBILE
@@ -130,26 +71,6 @@ func promptForAddress(r io.Reader) (*pb.Person, error) {
 			fmt.Printf("Unknown phone type %q.  Using default.\n", ptype)
 		}
 
-		// A
-		// repeated
-		// proto
-		// field
-		// maps
-		// to
-		// a
-		// slice
-		// field
-		// in
-		// Go.
-		// We
-		// can
-		// append
-		// to
-		// it
-		// like
-		// any
-		// other
-		// slice.
 		p.Phones = append(p.Phones, pn)
 	}
 

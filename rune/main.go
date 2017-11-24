@@ -11,5 +11,7 @@ var (
 
 func main() {
 	flag.Parse()
+	r := []rune(*input)
 	fmt.Println(*input)
+	fmt.Println(r)
 }

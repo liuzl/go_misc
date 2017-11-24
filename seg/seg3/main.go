@@ -26,6 +26,11 @@ func main() {
 			label := seg1.Type()
 			fmt.Print(text, "\\", label, " ")
 		}
+		fmt.Println()
+		// range for string is unicode char based
+		for _, c := range string(line) {
+			fmt.Printf("%c ", c)
+		}
 		fmt.Println("\n")
 	}
 }
