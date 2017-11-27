@@ -5,6 +5,14 @@ import (
 	"github.com/motemen/go-darts"
 )
 
+func blanks(n int) string {
+	s := ""
+	for i := 0; i < n; i++ {
+		s += "  "
+	}
+	return s
+}
+
 func main() {
 	d, err := darts.Import("darts.txt", "darts.lib", false)
 	if err == nil {
@@ -12,10 +20,13 @@ func main() {
 		if d.ExactMatchSearch(key, 0) {
 			fmt.Println("考察队员 is in dictionary")
 		}
-		key = []rune("lzl是一个考察队员")
-		r := d.CommonPrefixSearch(key, 0)
-		for i := 0; i < len(r); i++ {
-			fmt.Println(string(key[:r[i].PrefixLen]))
+		key = []rune("中国的李乐是一名考察队员")
+		for index, _ := range key {
+			sub := key[index:]
+			r := d.CommonPrefixSearch(sub, 0)
+			for i := 0; i < len(r); i++ {
+				fmt.Println(blanks(index) + string(sub[:r[i].PrefixLen]))
+			}
 		}
 	}
 }
