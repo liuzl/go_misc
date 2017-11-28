@@ -14,7 +14,8 @@ func blanks(n int) string {
 }
 
 func main() {
-	d, err := darts.Import("darts.txt", "darts.lib", false)
+	//d, err := darts.Import("darts.txt", "darts.lib", true)
+	d, err := darts.Load("darts.lib")
 	if err == nil {
 		key := []rune("考察队员")
 		if d.ExactMatchSearch(key, 0) {
