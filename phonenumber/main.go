@@ -21,6 +21,7 @@ type NumberInfo struct {
 	NumberType       phonenumbers.PhoneNumberType `json:"number_type"`
 	E164             string                       `json:"e164"`
 	RegionCode       string                       `json:"region_code"`
+	TimeZones        []string                     `json:"time_zones"`
 	Carrier          string                       `json:"carrier"`
 }
 
@@ -58,6 +59,7 @@ func PhoneHandler(w http.ResponseWriter, r *http.Request) {
 		info.NumberType = phonenumbers.GetNumberType(number)
 		info.E164 = phonenumbers.Format(number, phonenumbers.E164)
 		info.RegionCode = phonenumbers.GetRegionCodeForNumber(number)
+		info.TimeZones, _ = phonenumbers.GetTimezonesForPrefix(info.E164)
 		info.Carrier = number.GetPreferredDomesticCarrierCode()
 		rest.MustEncode(w, info)
 	}
