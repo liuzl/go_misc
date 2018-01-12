@@ -4,8 +4,9 @@ import (
 	"flag"
 	"github.com/GeertJohan/go.rice"
 	"github.com/golang/glog"
+	"github.com/liuzl/gocountries"
 	"github.com/liuzl/goutil/rest"
-	"github.com/nyaruka/phonenumbers"
+	"github.com/liuzl/phonenumbers"
 	"net/http"
 	"net/http/httputil"
 )
@@ -16,13 +17,13 @@ var (
 
 type NumberInfo struct {
 	*phonenumbers.PhoneNumber
-	IsPossibleNumber bool                         `json:"is_possible_number"`
-	IsValidNumber    bool                         `json:"is_valid_number"`
-	NumberType       phonenumbers.PhoneNumberType `json:"number_type"`
-	E164             string                       `json:"e164"`
-	RegionCode       string                       `json:"region_code"`
-	TimeZones        []string                     `json:"time_zones"`
-	Carrier          string                       `json:"carrier"`
+	IsValidNumber bool                         `json:"is_valid_number"`
+	NumberType    phonenumbers.PhoneNumberType `json:"number_type"`
+	E164          string                       `json:"e164"`
+	RegionCode    string                       `json:"region_code"`
+	Location      map[string]string            `json:"location"`
+	TimeZones     []string                     `json:"time_zones"`
+	Carrier       map[string]string            `json:"carrier"`
 }
 
 func EchoHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +47,8 @@ func PhoneHandler(w http.ResponseWriter, r *http.Request) {
 	if cc == "" {
 		cc = "ZZ"
 	}
-	number, err := phonenumbers.ParseAndKeepRawInput(phone, cc)
+	number, err := phonenumbers.Parse(phone, cc)
+	//number, err := phonenumbers.ParseAndKeepRawInput(phone, cc)
 	if err != nil {
 		rest.MustEncode(w, struct {
 			Status  string `json:"status"`
@@ -54,13 +56,33 @@ func PhoneHandler(w http.ResponseWriter, r *http.Request) {
 		}{Status: "error", Message: err.Error()})
 	} else {
 		info := &NumberInfo{PhoneNumber: number}
-		info.IsPossibleNumber = phonenumbers.IsPossibleNumber(number)
 		info.IsValidNumber = phonenumbers.IsValidNumber(number)
 		info.NumberType = phonenumbers.GetNumberType(number)
 		info.E164 = phonenumbers.Format(number, phonenumbers.E164)
 		info.RegionCode = phonenumbers.GetRegionCodeForNumber(number)
-		info.TimeZones, _ = phonenumbers.GetTimezonesForPrefix(info.E164)
-		info.Carrier = number.GetPreferredDomesticCarrierCode()
+		country := gocountries.FindCountryByAlpha(info.RegionCode)
+		lang := ""
+		if country != nil && len(country.Languages) > 0 {
+			lang = country.Languages[0]
+		}
+		println(lang)
+		info.Location = make(map[string]string)
+		info.Location["en"], _ = phonenumbers.GetGeocodingForNumber(number, "en")
+		if lang != "" {
+			tmp, _ := phonenumbers.GetGeocodingForNumber(number, lang)
+			if tmp != "" && tmp != info.Location["en"] {
+				info.Location[lang] = tmp
+			}
+		}
+		info.TimeZones, _ = phonenumbers.GetTimezonesForNumber(number)
+		info.Carrier = make(map[string]string)
+		info.Carrier["en"], _ = phonenumbers.GetCarrierForNumber(number, "en")
+		if lang != "" {
+			tmp, _ := phonenumbers.GetCarrierForNumber(number, lang)
+			if tmp != "" && tmp != info.Location["en"] {
+				info.Carrier[lang] = tmp
+			}
+		}
 		rest.MustEncode(w, info)
 	}
 }
