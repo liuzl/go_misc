@@ -79,7 +79,7 @@ func PhoneHandler(w http.ResponseWriter, r *http.Request) {
 		info.Carrier["en"], _ = phonenumbers.GetCarrierForNumber(number, "en")
 		if lang != "" {
 			tmp, _ := phonenumbers.GetCarrierForNumber(number, lang)
-			if tmp != "" && tmp != info.Location["en"] {
+			if tmp != "" && tmp != info.Carrier["en"] {
 				info.Carrier[lang] = tmp
 			}
 		}
