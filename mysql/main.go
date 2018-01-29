@@ -22,7 +22,7 @@ func main() {
 		}
 		glog.Infof("%+v\n", result)
 	*/
-	rows, err := db.Query("SELECT uid, count FROM revival_card WHERE count > ?", 0)
+	rows, err := db.Query("SELECT uid, count FROM revival_card WHERE count > ?", 1)
 	if err != nil {
 		glog.Fatal(err)
 	}
@@ -36,4 +36,13 @@ func main() {
 	if err := rows.Err(); err != nil {
 		glog.Fatal(err)
 	}
+	r, err := db.Exec("UPDATE revival_card set count=count-1 where count>0 and uid=?", 1)
+	if err != nil {
+		glog.Fatal(err)
+	}
+	affected, err := r.RowsAffected()
+	if err != nil {
+		glog.Fatal(err)
+	}
+	glog.Infof("r:%+v\n", affected)
 }
