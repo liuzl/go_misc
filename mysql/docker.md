@@ -18,7 +18,7 @@ CREATE TABLE `revival_card` (
   `count` INT(10) NOT NULL DEFAULT 0,
   `could_apply_by_sub` INT(1) NOT NULL DEFAULT 1,
   `could_apply_by_invite` INT(1) NOT NULL DEFAULT 1,
-  `update_time` BIGINT(20) NOT NULL,
+  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`),
   INDEX `code_index` USING BTREE (`code` ASC),
   INDEX `uid_count_update_time_index` (`count` ASC, `uid` ASC, `update_time` ASC)
