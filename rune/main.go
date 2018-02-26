@@ -11,7 +11,12 @@ var (
 
 func main() {
 	flag.Parse()
-	r := []rune(*input)
-	fmt.Println(*input)
-	fmt.Println(r)
+	fmt.Printf("str: %+v, len:%d\n", *input, len(*input))
+	fmt.Printf("rune: %+v, len:%d\n", []rune(*input), len([]rune(*input)))
+	fmt.Printf("byte: %+v, len:%d\n", []byte(*input), len([]byte(*input)))
+	/*
+		str: 如果是汉字呢haha, len:22
+		rune: [22914 26524 26159 27721 23383 21602 104 97 104 97], len:10
+		byte: [229 166 130 230 158 156 230 152 175 230 177 137 229 173 151 229 145 162 104 97 104 97], len:22
+	*/
 }
