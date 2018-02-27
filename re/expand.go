@@ -1,0 +1,21 @@
+package main
+
+import (
+	"fmt"
+	"regexp"
+)
+
+func main() {
+	src := []byte(`
+        call hello alice
+        hello bob
+        call hello eve
+    `)
+	pat := regexp.MustCompile(`(?m)(call)\s+(?P<cmd>\w+)\s+(?P<arg>.+)\s*$`)
+	res := []byte{}
+	for _, s := range pat.FindAllSubmatchIndex(src, -1) {
+		fmt.Println(string(src[s[2]:s[3]]), s)
+		res = pat.Expand(res, []byte("$cmd('$arg')\n"), src, s)
+	}
+	fmt.Println(string(res))
+}
