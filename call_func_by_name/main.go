@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -22,24 +21,30 @@ func sum(nums []int) int {
 	return s
 }
 
-func Call(m map[string]interface{}, name string, params ...interface{}) (result []reflect.Value, err error) {
-	nf, ok := m[name]
-	if !ok {
-		err = errors.New("func " + name + " not found")
-		return
+func Call(m map[string]interface{},
+	name string, params ...interface{}) ([]reflect.Value, error) {
+	var nf interface{}
+	if nf = m[name]; nf == nil {
+		return nil, fmt.Errorf("func %s not found", name)
 	}
 	f := reflect.ValueOf(nf)
-	fmt.Printf("len(params)=%d, f.Type().NumIn()=%d\n", len(params), f.Type().NumIn())
-	if len(params) != f.Type().NumIn() {
-		err = errors.New("The number of params is not adapted.")
-		return
+	if f.Kind() != reflect.Func {
+		return nil, fmt.Errorf("%s is not a function", name)
+	}
+	t := f.Type()
+	if len(params) != t.NumIn() {
+		return nil, fmt.Errorf("(len(params)=%d) != (t.NumIn()=%d)",
+			len(params), t.NumIn())
 	}
 	in := make([]reflect.Value, len(params))
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
+		if in[k].Type() != t.In(k) {
+			return nil, fmt.Errorf("(in[%d].Type()=%s) != (t.In(%d)=%s)",
+				k, in[k].Type(), k, t.In(k))
+		}
 	}
-	result = f.Call(in)
-	return
+	return f.Call(in), nil
 }
 
 func main() {
@@ -52,6 +57,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(ret)
+		for i, v := range ret {
+			fmt.Printf("%d: %+v\n", i, v)
+		}
+	}
+
+	_, err = Call(funcs, "sum", []string{"string"})
+	if err != nil {
+		fmt.Println(err)
 	}
 }
