@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"reflect"
+	"sync"
 )
 
 func foo() {
@@ -21,6 +22,12 @@ func sum(nums []int) int {
 	return s
 }
 
+func sumB(nums ...int) int {
+	s := 0
+	fmt.Printf("%+v\n", nums)
+	return s
+}
+
 func Call(m map[string]interface{},
 	name string, params ...interface{}) ([]reflect.Value, error) {
 	var nf interface{}
@@ -32,6 +39,9 @@ func Call(m map[string]interface{},
 		return nil, fmt.Errorf("%s is not a function", name)
 	}
 	t := f.Type()
+	if t.IsVariadic() {
+		return nil, fmt.Errorf("Variadic functions not supported")
+	}
 	if len(params) != t.NumIn() {
 		return nil, fmt.Errorf("(len(params)=%d) != (t.NumIn()=%d)",
 			len(params), t.NumIn())
@@ -39,6 +49,7 @@ func Call(m map[string]interface{},
 	in := make([]reflect.Value, len(params))
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
+		fmt.Printf("in[%d].Type()=%s|(t.In(%d)=%s\n", k, in[k].Type(), k, t.In(k))
 		if in[k].Type() != t.In(k) {
 			return nil, fmt.Errorf("(in[%d].Type()=%s) != (t.In(%d)=%s)",
 				k, in[k].Type(), k, t.In(k))
@@ -49,9 +60,10 @@ func Call(m map[string]interface{},
 
 func main() {
 	funcs := map[string]interface{}{
-		"foo": foo,
-		"bar": bar,
-		"sum": sum,
+		"foo":  foo,
+		"bar":  bar,
+		"sum":  sum,
+		"sumB": sumB,
 	}
 	ret, err := Call(funcs, "sum", []int{1, 2, 3})
 	if err != nil {
@@ -62,8 +74,16 @@ func main() {
 		}
 	}
 
-	_, err = Call(funcs, "sum", []string{"string"})
-	if err != nil {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		fmt.Println("gogogo routine")
+		_, err = Call(funcs, "sum", []int{2, 3})
 		fmt.Println(err)
+	}()
+	wg.Wait()
+	for i := 0; i < 10; i++ {
+		fmt.Println("HERE")
 	}
 }
