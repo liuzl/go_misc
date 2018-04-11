@@ -1,16 +1,25 @@
 package main
 
 import (
+	"flag"
+	"github.com/golang/glog"
 	"github.com/justinas/alice"
+	"github.com/liuzl/filestore"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
 	"net/http"
-	"os"
+	//"os"
 	"time"
 )
 
 func main() {
-	log := zerolog.New(os.Stdout).With().
+	flag.Parse()
+	f, err := filestore.NewFileStore("./log")
+	if err != nil {
+		glog.Fatal(err)
+	}
+	//log := zerolog.New(os.Stdout).With().
+	log := zerolog.New(f).With().
 		Timestamp().
 		Str("role", "my-service").
 		Str("host", "local-hostname").
