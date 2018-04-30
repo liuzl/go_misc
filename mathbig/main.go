@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 )
 
@@ -14,4 +15,5 @@ func main() {
 		return
 	}
 	fmt.Println(n, len(str), i)
+	fmt.Println(math.Pow(2.2, 7.8))
 }
