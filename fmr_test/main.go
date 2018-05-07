@@ -18,6 +18,7 @@ var (
 	js      = flag.String("js", "math.js", "javascript file")
 	input   = flag.String("i", "", "file of original text to read")
 	debug   = flag.Bool("debug", false, "debug mode")
+	vv      = flag.Bool("vv", false, "v mode")
 )
 
 func main() {
@@ -33,12 +34,13 @@ func main() {
 	if err != nil {
 		glog.Fatal(err)
 	}
-	b, err = goutil.JsonMarshalIndent(g, "", "    ")
-	if err != nil {
-		glog.Fatal(err)
+	if *vv {
+		b, err = goutil.JsonMarshalIndent(g, "", "    ")
+		if err != nil {
+			glog.Fatal(err)
+		}
+		fmt.Printf("%s\n", string(b))
 	}
-	fmt.Printf("%s\n", string(b))
-
 	script, err := ioutil.ReadFile(*js)
 	if err != nil {
 		glog.Fatal(err)
