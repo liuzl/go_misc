@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	input = flag.String("i", "default input", "input text")
+	input = flag.String("i", "default input, 你好", "input text")
 )
 
 func main() {
@@ -19,4 +19,6 @@ func main() {
 		rune: [22914 26524 26159 27721 23383 21602 104 97 104 97], len:10
 		byte: [229 166 130 230 158 156 230 152 175 230 177 137 229 173 151 229 145 162 104 97 104 97], len:22
 	*/
+	str := "哈哈this is good"
+	fmt.Println(len(str[0:4]))
 }

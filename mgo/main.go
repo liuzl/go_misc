@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Record struct {
@@ -24,4 +25,10 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("%+v\n", info)
+	table := db.C("sources")
+	var docs []interface{}
+	if err := table.Find(bson.M{"status": 1}).All(&docs); err != nil {
+		return
+	}
+	fmt.Printf("%+v\n", docs)
 }
