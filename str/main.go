@@ -31,4 +31,7 @@ func main() {
 	fmt.Println(s)
 	fmt.Println(ReverseOrderEncode(s))
 	fmt.Println(ReverseOrderEncode("hello90"))
+
+	s = "http://pm25.in/beijing"
+	fmt.Println(strings.Trim(s, "http://pm25.in/"))
 }
