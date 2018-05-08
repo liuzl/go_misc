@@ -4,25 +4,12 @@ import (
 	"fmt"
 	"github.com/antchfx/htmlquery"
 	"github.com/antchfx/xpath"
+	"github.com/liuzl/goutil"
 	"golang.org/x/net/html"
 	"io/ioutil"
 	"log"
-	"net/url"
 	"strings"
 )
-
-func MakeAbsoluteUrl(href, baseurl string) (string, error) {
-	u, err := url.Parse(href)
-	if err != nil {
-		return "", err
-	}
-	base, err := url.Parse(baseurl)
-	if err != nil {
-		return "", err
-	}
-	u = base.ResolveReference(u)
-	return u.String(), nil
-}
 
 func main() {
 	data, err := ioutil.ReadFile("index.html")
@@ -42,7 +29,7 @@ func main() {
 	expr := xpath.MustCompile("//div[@class='all']//a/@href")
 	iter := expr.Evaluate(htmlquery.CreateXPathNavigator(doc)).(*xpath.NodeIterator)
 	for iter.MoveNext() {
-		u, _ := MakeAbsoluteUrl(iter.Current().Value(), "http://pm25.in/")
+		u, _ := goutil.MakeAbsoluteUrl(iter.Current().Value(), "http://pm25.in/")
 		fmt.Printf("%s \n", u)
 	}
 }
