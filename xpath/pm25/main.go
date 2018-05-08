@@ -21,7 +21,7 @@ func main() {
 }
 
 func detail() {
-	data, err := ioutil.ReadFile("zhuzhou.html")
+	data, err := ioutil.ReadFile("beijing.html")
 	if err != nil {
 		log.Fatal(err)
 	}
