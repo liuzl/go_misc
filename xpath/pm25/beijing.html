@@ -1,0 +1,519 @@
+<!doctype html>
+<html xmlns:wb=“http://open.weibo.com/wb”>
+
+<head>
+  <meta charset="utf-8">
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"081b4ac340","applicationID":"8697927","transactionName":"JlgPTERbXgldQBhURAxETlRfQlc6XFNDVA==","queueTime":0,"applicationTime":17,"agent":""}</script>
+<script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var o=t[n]={exports:{}};e[n][0].call(o.exports,function(t){var o=e[n][1][t];return r(o||t)},o,o.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(e,t,n){function r(){}function o(e,t,n){return function(){return i(e,[f.now()].concat(u(arguments)),t?null:this,n),t?void 0:this}}var i=e("handle"),a=e(2),u=e(3),c=e("ee").get("tracer"),f=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,t){s[t]=o(d+t,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,o="function"==typeof t;return i(l+"tracer",[f.now(),e,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return t.apply(this,arguments)}catch(e){throw c.emit("fn-err",[arguments,this,e],n),e}finally{c.emit("fn-end",[f.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=o(l+t)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,f.now()])}},{}],2:[function(e,t,n){function r(e,t){var n=[],r="",i=0;for(r in e)o.call(e,r)&&(n[i]=t(r,e[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],3:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,o=n-t||0,i=Array(o<0?0:o);++r<o;)i[r]=e[t+r];return i}t.exports=r},{}],4:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function o(e){function t(e){return e&&e instanceof r?e:e?c(e,u,i):i()}function n(n,r,o,i){if(!d.aborted||i){e&&e(n,r,o);for(var a=t(o),u=m(n),c=u.length,f=0;f<c;f++)u[f].apply(a,r);var p=s[y[n]];return p&&p.push([b,n,r,a]),a}}function l(e,t){v[e]=m(e).concat(t)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(n)}function g(e,t){f(e,function(e,n){t=t||"feature",y[n]=t,t in s||(s[t]=[])})}var v={},y={},b={on:l,emit:n,get:w,listeners:m,context:t,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",c=e("gos"),f=e(2),s={},p={},d=t.exports=o();d.backlog=s},{}],gos:[function(e,t,n){function r(e,t,n){if(o.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[t]=r,r}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){o.buffer([e],r),o.emit(e,t,n)}var o=e("ee").get("handle");t.exports=r,r.ee=o},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=h.info=NREUM.info,t=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return s.abort();f(y,function(t,n){e[t]||(e[t]=n)}),c("mark",["onload",a()+h.offset],null,"api");var n=d.createElement("script");n.src="https://"+e.agent,t.parentNode.insertBefore(n,t)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),c=e("handle"),f=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1071.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=t.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),c("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PM25.in | 北京PM2.5及空气质量指数(AQI)</title>
+<meta content="北京PM2.5监测数据及空气质量指数(AQI)实时查询" name="description" />
+<meta content="北京pm2.5,北京空气质量指数(aqi),北京空气污染指数" name="keywords" />
+  
+  <meta name="author" content="主创：anson,Hello_蜡笔；友情支持：KevChen,铁骑Leap,koeylaoo,_幸福这一站,__JAS__,那个叫lee了个斌 ">
+  <link href="/assets/application-32570e67636e03a26f6d5c2816025ddb.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="/assets/application-a0c9d2532f0dc5ba8fcba803e2a385ad.js" type="text/javascript"></script>
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="YHJ+RXjhfXS8avT3pV/jGd000Bupfird4M2KSBdyqq0=" name="csrf-token" />
+  
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-38933456-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8">
+  </script>
+</head>
+
+<body class="aqis_live_data">
+  <!-- Navbar========================= -->
+  <div class="navbar-wrapper">
+    <div class="container">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+          <a type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collaps">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/"></a>
+          <div class="nav-collapse navbar-inverse-collaps collapse" style="height: 0px;">
+            <ul class="nav">
+              <li style="margin-top: 5px;">
+                <a href="/">首页</a>
+              </li>
+              <li style="margin-top: 5px;">
+                <a href="/rank">排行榜</a>
+              </li>
+              <li style="margin-top: 5px;">
+                <a href="/api_doc">API文档</a>
+              </li>
+              <li style="margin-top: 5px;">
+                <a href="/donate">赞助我们</a>
+              </li>
+              <li style="margin-top: 5px;">
+                <a href="/sharer">创享者</a>
+              </li>
+              <li style="margin-top: 5px;">
+                <a href="/about">关于</a>
+              </li>
+            </ul>
+          </div> <!-- end of .nav-collapse -->
+        </div> <!-- end of .navbar-inner -->
+      </div> <!-- end of .navbar -->
+    </div> <!-- end of .container -->
+  </div> <!-- end of .navbar-wrapper -->
+
+  <!-- Carousel=========================== -->
+  <!-- end of .carousel -->
+
+  <div class="container">
+    
+
+    <script type="text/javascript" >
+      $(function () {
+          $('#history_chart').highcharts({
+              chart: {
+                  type: 'line',
+                  marginRight: 130,
+                  marginBottom: 60
+              },
+              title: {
+                  text: '北京 最近24小时空气质量指数(AQI)趋势',
+                  x: -20 //center
+              },
+              subtitle: {
+                  text: 'http://www.pm25.in',
+                  x: -20
+              },
+              credits: {
+                text: '数据更新时间：2018-05-08 16:00',
+                href: 'http://www.pm25.in',
+                position: {
+                  align: 'left',
+                  x: 20,
+                  y: -15,
+                  verticalAlign: 'bottom',
+                },
+                style: {
+                  color: '#AAA',
+                  font: '14px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+                }
+              },
+              xAxis: {
+                categories: ["17时", "18时", "19时", "20时", "21时", "22时", "23时", "00时", "01时", "02时", "03时", "04时", "05时", "06时", "07时", "08时", "09时", "10时", "11时", "12时", "13时", "14时", "15时", "16时"],
+                labels: {
+                  style: {
+                    color: '#999',
+                    font: '12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+                  }
+                } 
+              },
+              yAxis: {
+                  min: 0,
+                  max: 500,
+                  title: {
+                      text: '数据来源于国家环境保护部网站'
+                  },
+                  plotLines: [{
+                      value: 0,
+                      width: 1,
+                      color: '#808080'
+                  }]
+              },
+              plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+              },
+              legend: {
+                  layout: 'vertical',
+                  align: 'right',
+                  verticalAlign: 'top',
+                  x: -10,
+                  y: 100,
+                  borderWidth: 0
+              },
+              series: [{
+                  name: 'AQI',
+                  data: [104,103,106,103,96,86,71,63,60,59,57,55,57,67,79,66,61,55,57,61,60,68,0,76],
+                  color: '#99CC66'
+              }]
+          });
+      });
+    </script>
+
+  <div class="span12 avg">
+    <div class="span11">
+      <div class="city_name">
+          <h2>北京</h2>
+      </div> <!-- end of .city_name -->
+      <div class="level">
+          <h4>
+            二级（良）
+          </h4>
+      </div> <!-- end of .level -->
+    </div> <!-- end of .span11 -->
+    
+    <div class="span11">
+      <div class="live_data_time">
+          <p>数据更新时间：2018-05-08 16:00:00</p>
+      </div> <!-- end of .live_data_time -->
+      <div class="live_data_unit">
+        数值单位：μg/m3(CO为mg/m3)
+      </div> <!-- end of live_data_unit -->
+    </div> <!-- end of .span11 -->
+
+    <div class="span12 data">
+        <div class="span1">
+          <div class="value">
+            76
+          </div>
+          <div class="caption">
+            AQI
+          </div>
+        </div>
+        <div class="span1">
+          <div class="value">
+            38
+          </div>
+          <div class="caption">
+            PM2.5/1h
+          </div>
+        </div>
+        <div class="span1">
+          <div class="value">
+            100
+          </div>
+          <div class="caption">
+            PM10/1h
+          </div>
+        </div>
+        <div class="span1">
+          <div class="value">
+            0.41
+          </div>
+          <div class="caption">
+            CO/1h
+          </div>
+        </div>
+        <div class="span1">
+          <div class="value">
+            17
+          </div>
+          <div class="caption">
+            NO2/1h
+          </div>
+        </div>
+        <div class="span1">
+          <div class ="value">
+            157
+          </div>
+          <div class="caption">
+            O3/1h
+          </div>
+        </div>
+        <div class="span1">
+          <div class ="value">
+            105
+          </div>
+          <div class="caption">
+            O3/8h
+          </div>
+        </div>
+        <div class="span1">
+          <div class="value">
+            4
+          </div>
+          <div class="caption">
+            SO2/1h
+          </div>
+        </div>
+        <div class="span1 more-city">
+          <div class="value">
+            <a href="/">其他城市</a>
+          </div>
+        </div>
+    </div> <!-- end of .data -->
+
+    <div class="span12 caution">
+      <div class="primary_pollutant">
+          <p>首要污染物：
+            颗粒物(PM10)
+          </p>
+      </div> <!-- end of .primary_pollutant -->
+      <div class="affect">
+          <p>对健康影响情况：
+            空气质量可接受,但某些污染物可能对极少数异常敏感人群健康有较弱影响
+          </p>
+      </div> <!-- end of .affect -->
+      <div class="action">
+          <p>建议采取的措施：
+            极少数异常敏感人群应减少户外活动
+          </p>
+      </div> <!-- end of .action -->
+    </div> <!-- end of .caution -->
+  </div> <!-- end of .avg -->
+
+  <div class="">
+    <div class="station">
+        <h3>12个监测点</h3>
+    </div>
+    <div class="share">
+      <script type="text/javascript" charset="utf-8">
+      (function(){
+        var _w = 106 , _h = 24;
+        var param = {
+          url:location.href,
+          type:'5',
+          count:'0', /**是否显示分享数，1显示(可选)*/
+          appkey:'3817881004', /**您申请的应用appkey,显示分享来源(可选)*/
+          title: '【北京空气质量】  AQI: 76;  PM2.5: 38;  空气质量: 良;  发布时间: 2018-05-08 16:00:00;  [建议采取措施]：极少数异常敏感人群应减少户外活动。   更多监测点数据 ', /**分享的文字内容(可选，默认为所在页面的title)*/
+          pic:'', /**分享图片的路径(可选)*/
+          ralateUid:'3243396780', /**关联用户的UID，分享微博会@该用户(可选)*/
+        language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+          rnd:new Date().valueOf()
+        }
+        var temp = [];
+        for( var p in param ){
+          temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+        }
+        document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+      })()
+      </script>
+    </div>
+    <div class="follow">
+      <wb:follow-button uid="3243396780" type="red_3" width="100%" height="24" ></wb:follow-button>
+    </div>
+  </div>
+  <div class="table">
+    <table id="detail-data" class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>监测点</th>
+          <th>AQI</th>
+          <th>空气质量<br>指数类别</th>
+          <th>首要污染物</th>
+          <th>PM2.5<br>细颗粒物</th>
+          <th>PM10<br>可吸入颗粒物</th>
+          <th>CO<br>一氧化碳</th>
+          <th>NO2<br>二氧化氮</th>
+          <th>O3<br>臭氧1小时平均</th>
+          <th class="O3_8h_dn">O3<br>臭氧8小时平均</th>
+          <th>SO2<br>二氧化硫</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>万寿西宫</td>
+              <td>79</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>49</td>
+              <td>107</td>
+              <td>0.5</td>
+              <td>19</td>
+              <td>153</td>
+              <td class="O3_8h_dn">102</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>定陵</td>
+              <td>60</td>
+              <td>良</td>
+
+                  <td>臭氧1小时</td>
+
+              <td>_</td>
+              <td>_</td>
+              <td>0.4</td>
+              <td>15</td>
+              <td>168</td>
+              <td class="O3_8h_dn">115</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>东四</td>
+              <td>60</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>42</td>
+              <td>70</td>
+              <td>0.4</td>
+              <td>18</td>
+              <td>160</td>
+              <td class="O3_8h_dn">108</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>天坛</td>
+              <td>69</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>25</td>
+              <td>88</td>
+              <td>0.5</td>
+              <td>13</td>
+              <td>141</td>
+              <td class="O3_8h_dn">98</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>农展馆</td>
+              <td>79</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>17</td>
+              <td>107</td>
+              <td>0.4</td>
+              <td>19</td>
+              <td>145</td>
+              <td class="O3_8h_dn">90</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>官园</td>
+              <td>76</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>42</td>
+              <td>102</td>
+              <td>0.4</td>
+              <td>15</td>
+              <td>170</td>
+              <td class="O3_8h_dn">123</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>海淀区万柳</td>
+              <td>129</td>
+              <td>轻度污染</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>61</td>
+              <td>208</td>
+              <td>_</td>
+              <td>26</td>
+              <td>_</td>
+              <td class="O3_8h_dn">_</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>顺义新城</td>
+              <td>70</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>27</td>
+              <td>89</td>
+              <td>0.5</td>
+              <td>24</td>
+              <td>170</td>
+              <td class="O3_8h_dn">106</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>怀柔镇</td>
+              <td>80</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>46</td>
+              <td>110</td>
+              <td>0.4</td>
+              <td>21</td>
+              <td>140</td>
+              <td class="O3_8h_dn">94</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>昌平镇</td>
+              <td>72</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>26</td>
+              <td>93</td>
+              <td>0.3</td>
+              <td>12</td>
+              <td>166</td>
+              <td class="O3_8h_dn">108</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>奥体中心</td>
+              <td>63</td>
+              <td>良</td>
+
+                  <td>细颗粒物(PM2.5)</td>
+
+              <td>45</td>
+              <td>64</td>
+              <td>0.3</td>
+              <td>15</td>
+              <td>166</td>
+              <td class="O3_8h_dn">106</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>古城</td>
+              <td>57</td>
+              <td>良</td>
+
+                  <td>颗粒物(PM10)</td>
+
+              <td>38</td>
+              <td>64</td>
+              <td>0.4</td>
+              <td>15</td>
+              <td>155</td>
+              <td class="O3_8h_dn">114</td>
+              <td>3</td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="span12 history">
+    <div id="history_chart"></div>
+  </div>
+
+    <div class="footer">
+      <p>
+        Copyright © 2013-2014<a href="http://www.bestapp.us" target="_blank"> BestApp工作室.</a> All Rights Reserved.
+      </p>
+      <p>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">粤ICP备13012270号-6</a>
+      </p>
+    </div>
+    <div id="back-top">
+      <a href="#top"><span></span>回到顶部</a>
+    </div>
+  </div>
+
+</body>
+</html>
