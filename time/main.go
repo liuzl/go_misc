@@ -13,4 +13,6 @@ func main() {
 	fmt.Println(zodiac[(t.Year()+8)%12])
 	fmt.Println(tiangan[(t.Year()+8)%12])
 	fmt.Println(dizhi[(t.Year()+6)%10])
+
+	fmt.Println(time.Unix(-100000, 0).Format("20060102030405"))
 }
