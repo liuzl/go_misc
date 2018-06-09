@@ -10,6 +10,8 @@ func main() {
 	tiangan := []string{"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"}
 	dizhi := []string{"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"}
 	t := time.Now()
+	fmt.Printf("%+v\n", t)
+	fmt.Println(time.Now().UTC().Format("2006-01-02T15:04:05Z"))
 	fmt.Println(zodiac[(t.Year()+8)%12])
 	fmt.Println(tiangan[(t.Year()+8)%12])
 	fmt.Println(dizhi[(t.Year()+6)%10])
