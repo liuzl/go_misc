@@ -1,16 +1,17 @@
 package main
 
 import (
-	"crawler.club/dl"
 	"fmt"
-	"github.com/antchfx/htmlquery"
 	"log"
 	"strings"
+
+	"crawler.club/dl"
+	"github.com/antchfx/htmlquery"
 )
 
 func main() {
 	fmt.Println("vim-go")
-	resp := dl.DownloadUrl("http://www.newsmth.net/nForum/article/Taiwan/50328")
+	resp := dl.DownloadUrl("http://www.newsmth.net/nForum/article/Sports/387504")
 	if resp.Error != nil {
 		log.Fatal(resp.Error)
 	}
@@ -19,8 +20,11 @@ func main() {
 		log.Fatal(err)
 	}
 	//fmt.Println(htmlquery.OutputHTML(doc, true))
-	//for _, n := range htmlquery.Find(doc, "//table[contains(concat(' ', @class, ' '), ' article ')]//td[contains(concat(' ', @class, ' '), ' a-content ')]") {
-	for _, n := range htmlquery.Find(doc, "//table[contains(concat(' ', @class, ' '), ' article ')]") { //span[contains(@class, 'a-pos')]") {
-		fmt.Printf("%s \n\n\n\n\n", htmlquery.OutputHTML(n, true))
+	for _, n := range htmlquery.Find(doc, "//table[contains(concat(' ', @class, ' '), ' article ')]//td[contains(concat(' ', @class, ' '), ' a-content ')]") {
+		//fmt.Printf("%s \n\n", htmlquery.InnerText(n))
+		fmt.Println("=============================")
+		fmt.Printf("%s\n", clean(htmlquery.OutputHTML(n, true)))
+		fmt.Println("=============================\n\n\n")
+		//fmt.Printf("%s \n\n\n\n\n", htmlquery.OutputHTML(n, true))
 	}
 }
