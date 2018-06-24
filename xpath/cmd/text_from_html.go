@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"regexp"
 	"strings"
 )
@@ -43,5 +44,5 @@ func TextFromHTML(rawhtml string) string {
 	for i, _ := range lines {
 		lines[i] = strings.TrimSpace(lines[i])
 	}
-	return strings.Join(lines, "\n")
+	return html.UnescapeString(strings.Join(lines, "\n"))
 }
