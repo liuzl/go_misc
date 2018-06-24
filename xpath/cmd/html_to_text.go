@@ -25,7 +25,7 @@ var (
 	ReTag          = regexp.MustCompile(`(?ims)<.*?>`)
 )
 
-func clean(rawhtml string) string {
+func TextFromHTML(rawhtml string) string {
 	lines := strings.Split(rawhtml, "\n")
 	for i, _ := range lines {
 		lines[i] = strings.TrimSpace(lines[i])

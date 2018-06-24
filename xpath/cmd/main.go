@@ -23,7 +23,7 @@ func main() {
 	for _, n := range htmlquery.Find(doc, "//table[contains(concat(' ', @class, ' '), ' article ')]//td[contains(concat(' ', @class, ' '), ' a-content ')]") {
 		//fmt.Printf("%s \n\n", htmlquery.InnerText(n))
 		fmt.Println("=============================")
-		fmt.Printf("%s\n", clean(htmlquery.OutputHTML(n, true)))
+		fmt.Printf("%s\n", TextFromHTML(htmlquery.OutputHTML(n, true)))
 		fmt.Println("=============================\n\n\n")
 		//fmt.Printf("%s \n\n\n\n\n", htmlquery.OutputHTML(n, true))
 	}
