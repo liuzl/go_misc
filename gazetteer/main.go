@@ -11,7 +11,7 @@ var (
 
 func main() {
 	flag.Parse()
-	d, err := NewDictionary(*dir)
+	d, err := Load(*dir)
 	if err != nil {
 		log.Fatal(err)
 	}

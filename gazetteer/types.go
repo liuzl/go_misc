@@ -13,6 +13,7 @@ type DictValue struct {
 type Values []*DictValue
 
 type Dictionary struct {
+	dir   string
 	kv    *store.LevelStore
 	cedar *dict.Cedar
 }
