@@ -10,6 +10,8 @@ type DictValue struct {
 	Value interface{} `json:"value"`
 }
 
+type Values []*DictValue
+
 type Dictionary struct {
 	kv    *store.LevelStore
 	cedar *dict.Cedar
