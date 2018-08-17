@@ -6,6 +6,11 @@ import (
 	"github.com/mitchellh/hashstructure"
 )
 
+type pair struct {
+	a string
+	b string
+}
+
 func main() {
 	fmt.Println("vim-go")
 
@@ -19,4 +24,10 @@ func main() {
 	h4, _ := hashstructure.Hash(item3, nil)
 	h5, _ := hashstructure.Hash(item4, nil)
 	fmt.Println(h1, h2, item2, h3, h4, h5)
+
+	x := &pair{"a", "b"}
+	y := pair{"a", "b"}
+	hx, _ := hashstructure.Hash(x, nil)
+	hy, _ := hashstructure.Hash(y, nil)
+	fmt.Println(hx, hy)
 }
