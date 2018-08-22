@@ -11,6 +11,11 @@ type pair struct {
 	b string
 }
 
+type wordValue struct {
+	typ string
+	val interface{}
+}
+
 func main() {
 	fmt.Println("vim-go")
 
@@ -30,4 +35,11 @@ func main() {
 	hx, _ := hashstructure.Hash(x, nil)
 	hy, _ := hashstructure.Hash(y, nil)
 	fmt.Println(hx, hy)
+
+	shs := &wordValue{"loc_county", []string{"310201", "310221"}}
+	sh := &wordValue{"loc_province", []string{"310000"}}
+	k1, e1 := hashstructure.Hash(shs, nil)
+	k2, e2 := hashstructure.Hash(sh, nil)
+	k3, e3 := hashstructure.Hash(wordValue{}, nil)
+	fmt.Println(k1, k2, k3, e1, e2, e3)
 }
