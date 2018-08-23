@@ -34,4 +34,8 @@ func main() {
 
 	s = "http://pm25.in/beijing"
 	fmt.Println(strings.Trim(s, "http://pm25.in/"))
+
+	fmt.Println(strings.Split("", "_"))
+	fmt.Println(strings.Split("abc", "_"))
+	fmt.Println(strings.Split("abc_def", "_"))
 }
