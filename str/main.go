@@ -34,4 +34,11 @@ func main() {
 
 	s = "http://pm25.in/beijing"
 	fmt.Println(strings.Trim(s, "http://pm25.in/"))
+
+	text := "北京ทันทุกเหตุการ有限公司"
+	fmt.Println(len(text))
+	fmt.Println(text[36:])
+	for i, c := range text {
+		fmt.Println(i, c)
+	}
 }
