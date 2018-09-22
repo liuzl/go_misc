@@ -17,6 +17,6 @@ func main() {
 	}
 	fmt.Println(text)
 	for i, token := range d.Tokens {
-		fmt.Println(i, token)
+		fmt.Println(i, token, token.Type)
 	}
 }
