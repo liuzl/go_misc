@@ -7,3 +7,4 @@ global.test = function() {
 function abc() {
     console.log("in function abc");
 }
+abc();

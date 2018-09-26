@@ -16,7 +16,13 @@ func main() {
 
 	vm := otto.New()
 	vm.Set("require", require)
-	vm.Run(os.Args[1])
+	b, err := ioutil.ReadFile(os.Args[1])
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = vm.Run(b)
+	fmt.Println(err)
 }
 
 func require(call otto.FunctionCall) otto.Value {
