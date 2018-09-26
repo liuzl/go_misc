@@ -3,18 +3,20 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/robertkrimen/otto"
 )
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Printf("Usage: %s <jsfile>\n", os.Args[0])
+		os.Exit(1)
+	}
+
 	vm := otto.New()
 	vm.Set("require", require)
-	vm.Run(`
-        require("test.js");
-        test();
-		abc();
-    `)
+	vm.Run(os.Args[1])
 }
 
 func require(call otto.FunctionCall) otto.Value {
