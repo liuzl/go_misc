@@ -50,3 +50,7 @@ nf.math.pow = function(x, y) {
 nf.util.concat = function(x, y) {
     return x.toString() + y.toString();
 }
+
+if (typeof(module) != "undefined") {
+    module.exports = nf;
+}
