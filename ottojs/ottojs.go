@@ -34,7 +34,7 @@ func require(call otto.FunctionCall) otto.Value {
 		panic(err)
 	}
 	_, err = call.Otto.Run(string(data))
-	fmt.Println(string(data))
+	//fmt.Println(string(data))
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
