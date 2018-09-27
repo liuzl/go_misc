@@ -50,3 +50,7 @@ cedar_dict/cedar_dict
 darts_dict/darts.lib
 fmr_dev/fmr_dev
 ling_example/ling_example
+fmr_dev/sf/dict/
+fmr_dev/sf/sf
+zerolog_test/httpserver/httpserver
+zerolog_test/httpserver/log/
