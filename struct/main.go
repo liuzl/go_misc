@@ -22,4 +22,7 @@ func main() {
 	d := &Dog{a, "this is the owner name of this dog"}
 	b, _ = json.Marshal(d)
 	fmt.Println(string(b))
+
+	b, _ = json.Marshal(nil)
+	fmt.Println(string(b))
 }
