@@ -56,3 +56,4 @@ zerolog_test/httpserver/httpserver
 zerolog_test/httpserver/log/
 ottojs/gojajs
 zerolog
+qrcode/qrcode
