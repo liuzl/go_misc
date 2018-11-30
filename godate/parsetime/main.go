@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/araddon/dateparse"
+	"github.com/liuzl/ling"
 )
 
 func main() {
@@ -22,12 +23,23 @@ func main() {
 			log.Fatal(c)
 		}
 		line = strings.TrimSpace(line)
-
-		t, err := dateparse.ParseAny(line)
-		if err != nil {
-			fmt.Println(err)
-			continue
+		d := ling.NewDocument(line)
+		if err := ling.MustNLP().Annotate(d); err != nil {
+			log.Fatal(err)
 		}
-		fmt.Println(t)
+
+		for _, token := range d.Tokens {
+			if token.Type == ling.Space {
+				continue
+			}
+			fmt.Println(line[token.StartByte:])
+			t, err := dateparse.ParseAny(line[token.StartByte:])
+			if err != nil {
+				continue
+			} else {
+				fmt.Println(t)
+				break
+			}
+		}
 	}
 }
