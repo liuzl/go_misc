@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/liuzl/goutil"
+	//"github.com/m3ng9i/feedreader"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -15,4 +17,8 @@ func main() {
 		fmt.Println(i.Title, i.Published, i.PublishedParsed)
 		fmt.Println(i.Link)
 	}
+
+	//feed1, _ := feedreader.Fetch(url)
+	b, _ := goutil.JSONMarshal(feed)
+	fmt.Println(string(b))
 }
