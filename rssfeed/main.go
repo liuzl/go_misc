@@ -5,7 +5,8 @@ import (
 
 	"github.com/liuzl/goutil"
 	//"github.com/m3ng9i/feedreader"
-	"github.com/mmcdole/gofeed"
+	//"github.com/mmcdole/gofeed"
+	"github.com/xgolib/gofeed"
 )
 
 func main() {
