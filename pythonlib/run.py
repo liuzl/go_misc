@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import ctypes
 
 lib = ctypes.CDLL('./sum.so')
