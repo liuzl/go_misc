@@ -21,4 +21,8 @@ func main() {
 	*/
 	str := "哈哈this is good"
 	fmt.Println(len(str[0:4]))
+
+	for i, c := range str {
+		fmt.Println(i, string(c), str[i:])
+	}
 }
