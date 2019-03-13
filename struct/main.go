@@ -9,6 +9,10 @@ type Animal struct {
 	Name string `json:"name"`
 }
 
+func (a *Animal) GetName() string {
+	return a.Name
+}
+
 type Dog struct {
 	*Animal
 	Owner string `json:"owner"`
@@ -25,4 +29,6 @@ func main() {
 
 	b, _ = json.Marshal(nil)
 	fmt.Println(string(b))
+
+	fmt.Println(d.GetName())
 }
