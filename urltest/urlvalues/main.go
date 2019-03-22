@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"net/url"
+
+	"github.com/liuzl/goutil"
 )
 
 var (
@@ -27,4 +29,7 @@ func main() {
 	fmt.Println(vurl.String())
 	vurl.RawQuery = c.Encode()
 	fmt.Println(vurl.String())
+
+	b, _ := goutil.JSONMarshal(vurl)
+	fmt.Println(string(b))
 }
