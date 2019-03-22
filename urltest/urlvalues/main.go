@@ -15,16 +15,16 @@ func main() {
 
 	fmt.Println(*u)
 
-	values, err := url.ParseRequestURI(*u)
-	fmt.Println(values, err)
+	vurl, err := url.ParseRequestURI(*u)
+	fmt.Println(vurl, err)
 	if err != nil {
 		return
 	}
-	urlValue := values.Query()
-	urlValue.Set("phone", "+8613381125653")
-	urlValue.Set("whatsapp", "yes")
-	fmt.Println(urlValue.Encode())
-	fmt.Println(values.String())
-	values.RawQuery = urlValue.Encode()
-	fmt.Println(values.String())
+	c := vurl.Query()
+	c.Set("phone", "+8613381125653")
+	c.Set("whatsapp", "yes")
+	fmt.Println(c.Encode())
+	fmt.Println(vurl.String())
+	vurl.RawQuery = c.Encode()
+	fmt.Println(vurl.String())
 }
