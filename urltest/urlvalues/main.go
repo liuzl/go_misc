@@ -12,9 +12,19 @@ var (
 
 func main() {
 	flag.Parse()
-	fmt.Println("vim-go")
+
 	fmt.Println(*u)
 
 	values, err := url.ParseRequestURI(*u)
 	fmt.Println(values, err)
+	if err != nil {
+		return
+	}
+	urlValue := values.Query()
+	urlValue.Set("phone", "+8613381125653")
+	urlValue.Set("whatsapp", "yes")
+	fmt.Println(urlValue.Encode())
+	fmt.Println(values.String())
+	values.RawQuery = urlValue.Encode()
+	fmt.Println(values.String())
 }
