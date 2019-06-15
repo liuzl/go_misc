@@ -31,7 +31,7 @@ func main() {
 		glog.Fatal(err)
 	}
 	words := strings.Split(string(content), "\n")
-	bagSizes := []int{2, 3, 4}
+	bagSizes := []int{3, 4}
 	cm := closestmatch.New(words, bagSizes)
 	fmt.Println("ready!")
 
