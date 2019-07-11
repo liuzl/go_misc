@@ -21,7 +21,7 @@ func main() {
 	one.AddBranch("two").
 		AddNode("subnode1").AddNode("subnode2"). // add some nodes
 		AddBranch("three").                      // add a new sub-branch
-		AddNode("subnode1").AddNode("subnode2")  // add some nodes too
+		AddNode("子节点1").AddNode("子节点2")          // add some nodes too
 
 	// add one more node that should surround the inner branch
 	one.AddNode("subnode3")
