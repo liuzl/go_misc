@@ -9,6 +9,8 @@ import (
 func main() {
 	tree := treeprint.New()
 
+	tree.SetValue("root")
+
 	// create a new branch in the root
 	one := tree.AddBranch("one")
 
