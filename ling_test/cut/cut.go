@@ -22,5 +22,8 @@ func main() {
 		fmt.Printf("Usage: %s <str>\n", os.Args[0])
 		return
 	}
-	fmt.Println(cut(os.Args[1]))
+	ret := cut(os.Args[1])
+	for _, r := range ret {
+		fmt.Printf("%d,[%s]\n", len(r), r)
+	}
 }
