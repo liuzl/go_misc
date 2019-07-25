@@ -17,4 +17,7 @@ func main() {
 	fmt.Println(dizhi[(t.Year()+6)%10])
 
 	fmt.Println(time.Unix(-100000, 0).Format("20060102030405"))
+
+	ts, err := time.Parse(time.RFC3339, "")
+	fmt.Println(ts, err)
 }
