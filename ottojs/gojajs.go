@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/dop251/goja"
+	"github.com/dop251/goja_nodejs/console"
 	"github.com/dop251/goja_nodejs/require"
 )
 
@@ -24,11 +25,14 @@ func main() {
 	registry := new(require.Registry) // this can be shared by multiple runtimes
 
 	runtime := goja.New()
-	req := registry.Enable(runtime)
+	registry.Enable(runtime)
 
-	_ = req
-	v, err := runtime.RunString(string(b))
-	fmt.Println(v, err)
+	console.Enable(runtime)
+
+	_, err = runtime.RunString(string(b))
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	//m, err := req.Require("m.js")
 	//_, _ = m, err
