@@ -23,14 +23,11 @@ func main() {
 	}
 
 	registry := new(require.Registry) // this can be shared by multiple runtimes
+	vm := goja.New()
+	registry.Enable(vm)
+	console.Enable(vm)
 
-	runtime := goja.New()
-	registry.Enable(runtime)
-
-	console.Enable(runtime)
-
-	_, err = runtime.RunString(string(b))
-	if err != nil {
+	if _, err = vm.RunString(string(b)); err != nil {
 		fmt.Println(err)
 	}
 
