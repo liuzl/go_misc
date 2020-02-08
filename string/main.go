@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	s1 := "2020-01-21 00:00:00"
@@ -8,4 +11,13 @@ func main() {
 	s3 := "2020-01-22"
 	fmt.Println(s1 > s2)
 	fmt.Println(s1 > s3)
+
+	var x []string
+	fmt.Println(x, len(x))
+	x = strings.Split("", ",")
+	fmt.Println(x, len(x))
+	x = strings.Split("a", ",")
+	fmt.Println(x, len(x))
+	x = strings.Split("a,b", ",")
+	fmt.Println(x, len(x))
 }
