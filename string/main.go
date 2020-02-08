@@ -1,0 +1,11 @@
+package main
+
+import "fmt"
+
+func main() {
+	s1 := "2020-01-21 00:00:00"
+	s2 := "2020-01-21"
+	s3 := "2020-01-22"
+	fmt.Println(s1 > s2)
+	fmt.Println(s1 > s3)
+}
