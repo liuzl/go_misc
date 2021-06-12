@@ -20,4 +20,8 @@ func main() {
 
 	ts, err := time.Parse(time.RFC3339, "")
 	fmt.Println(ts, err)
+
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	ts, err = time.ParseInLocation("1/02/2006, 3:04:05 PM", "6/10/2021, 8:26:03 PM", loc)
+	fmt.Println(ts, err)
 }
