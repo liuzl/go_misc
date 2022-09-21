@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"embed"
 	"flag"
+	"io/fs"
 	"net/http"
 	"strings"
 	"time"
@@ -24,6 +26,9 @@ type TranslationResult struct {
 	Output string  `json:"output"`
 	Time   float64 `json:"time"`
 }
+
+//go:embed static
+var staticFS embed.FS
 
 func main() {
 	flag.Parse()
@@ -56,6 +61,14 @@ func main() {
 		}
 		rest.MustEncode(w, &rest.RestMessage{Status: "ok", Message: ret})
 	}))
-	glog.Info("server listen on ", *addr)
+
+	htmlContent, err := fs.Sub(fs.FS(staticFS), "static")
+	if err != nil {
+		glog.Error(err)
+		return
+	}
+	http.Handle("/", http.FileServer(http.FS(htmlContent)))
+
+	glog.Info("server listen on http://0.0.0.0", *addr)
 	glog.Error(http.ListenAndServe(*addr, nil))
 }

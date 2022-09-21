@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground</title>
+<link rel="icon" type="image/png" href="./images/favicon.png" />
+
+<script src="./js/htmx-v1.7.0.min.js"></script>
+<script src="./js/axios.min.js"></script>
+
+<link rel="stylesheet" href="./css/bulma-v0.9.1.min.css">
+<style>
+        .progress::-webkit-progress-value {
+            transition: width 10s ease;
+        }
+
+        textarea {
+            color: #6c6a6a !important;
+            font-size: 14px !important;
+        }
+        body {
+            font-family: helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<section class="section">
+<div class="container">
+<div class="columns" style="border:1px solid #f5f5f5">
+<div class="column has-background-white-ter is-one-quarter" style="border:2px solid #f5f5f5;">
+<aside class="menu">
+<p class="has-text-centered"><a href="./index.html">LOGO</a></p>
+<p class="has-text-centered is-size-4 mb-4">API Playground</p>
+<hr>
+<ul class="menu-list is-size-6">
+<li><a id="summarization-entry" class="menu-entry" ><span class="icon has-text-grey-light"><i class="fas fa-compress is-size-7 has-color-primary"></i></span>
+Summarization
+</a></li>
+<li><a id="text-generation-with-gpt-j-entry" class="menu-entry" ><span class="icon has-text-grey-light"><i class="fas fa-pen is-size-7"></i></span>
+Text Generation</a></li>
+<li><a id="translation-entry" class="menu-entry is-active"><span class="icon has-text-grey-light"><i class="fas fa-globe-americas is-size-7 has-color-primary"></i></span>
+Translation
+</a></li>
+</ul>
+</aside>
+</div>
+<div id="content" class="column px-4 py-4 has-text-centered" hx-history-elt="#content">
+<div id="notification" style="position:fixed; z-index:9999; bottom: 10px; right:10px; margin-left:10px">
+</div>
+<h1 class="title is-3 my-5">Translation</h1>
+<button class="button is-light mb-5" onClick="htmx.toggleClass(htmx.find('#modal'), 'is-active');" style="white-space: normal;">
+<i class="fas fa-question-circle mr-2"></i><u>Learn more about translation</u>
+</button>
+<button class="button is-light mb-5" onClick="htmx.toggleClass(htmx.find('#code-modal'), 'is-active');" style="white-space: normal;">
+<i class="fas fa-code mr-2"></i><u>See the code</u>
+</button>
+<div class="box">
+<form method="post">
+<div class="columns">
+<div class="column has-text-left">
+<label class="label is-size-7">API token (get one <a class="has-text-primary-dark" href="../index.html">here</a>)</label>
+<div class="control">
+<input type="text" name="token" class="input" maxlength="40" minlength="40" required id="id_token">
+</div>
+</div>
+<div class="column has-text-left">
+<label class="label is-size-7">Model</label>
+<div class="control">
+<div class="select" style="width:100%">
+<select name="model" style="width:100%;" id="id_model">
+<option value="ours">ours</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+
+<div id="languages-frame" class="columns">
+<div class="column has-text-left">
+<label class="label is-size-7">Source Language (automatically detected if empty)</label>
+<div class="control">
+<div class="select" style="width:100%">
+<select name="source" style="width:100%;" id="id_source">
+<option value="eng_Latn"></option>
+<option value="fin_Latn">Finnish</option>
+<option value="fra_Latn">French</option>
+<option value="jpn_Jpan">Japanese</option>
+<option value="kor_Hang">Korean</option>
+<option value="nld_Latn">Dutch</option>
+<option value="swe_Latn">Swedish</option>
+<option value="zho_Hans">Chinese (Simplified)</option>
+<option value="zho_Hant">Chinese (Traditional)</option>
+</select>
+</div>
+</div>
+</div>
+<div class="column has-text-left">
+<label class="label is-size-7">Target Language</label>
+<div class="control">
+<div class="select" style="width:100%">
+<select name="target" style="width:100%;" id="id_target">
+<option value="zho_Hans">Chinese (Simplified)</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column has-text-left">
+<label class="label is-size-7">Text to translate</label>
+<div class="control">
+<textarea name="body" cols="15" rows="8" class="textarea" required id="id_body">
+John Doe has been working for Microsoft in Seattle since 1999.</textarea>
+</div>
+</div>
+</div>
+<button id="send-btn" class="button is-primary mb-3 is-medium" onClick="run();"> Translate</button>
+<div class="columns">
+    <div class="column has-text-left">
+    <label class="label is-size-7">Translated result</label>
+    <div class="control">
+    <textarea name="body" cols="15" rows="8" class="textarea" required id="id_result">
+    John Doe has been working for Microsoft in Seattle since 1999.</textarea>
+    </div>
+    </div>
+    </div>
+</form>
+</div>
+<div id="modal" class="modal">
+<div class="modal-background" onClick="htmx.toggleClass(htmx.find('#modal'), 'is-active');"></div>
+<div class="modal-card" style="width:90%; max-width:1000px">
+<header class="modal-card-head">
+<p class="modal-card-title">Translation</p>
+<button class="delete" aria-label="close" onClick="htmx.toggleClass(htmx.find('#modal'), 'is-active');"></button>
+</header>
+<section class="modal-card-body">
+<h2 class="title is-4 is-family-primary mt-3">
+Deep Learning NLP Techniques for Advanced Translation
+</h2>
+<div class="container">
+<p>Automatic translation has been available for years thanks to services like Google translate, but
+results
+have never been completely satisfying. Thanks to the recent progress made on deep learning, it is
+now
+possible to reach a more advanced level of translation.</p>
+<p>Deep learning NLP models make translation very fluent. Even for advanced technical topics, it's hard
+to
+detect that translation was performed by a machine. Now that translation is more reliable than ever,
+it
+creates tons of new possibilities.</p>
+</div>
+<h2 class="title is-4 is-family-primary mt-6">
+Why Use Automatic Translation?
+</h2>
+<p>Potential applications for automatic translation are countless, but let's show 2 examples.
+</p>
+<div class="columns mt-4">
+<div class="column">
+<div class="box">
+<h2 class="title is-6 is-family-primary">
+Multilingual Support
+</h2>
+<p>Many customers cannot or don't want to speak English. Instead of just ignoring them and
+potentially losing them, why not automatically translate all the discussions?</p>
+</div>
+</div>
+<div class="column">
+<div class="box">
+<h2 class="title is-6 is-family-primary">
+Multilingual Marketing
+</h2>
+<p>Targeting customers based in multiple countries with English content only is not optimal.
+Most customers prefer to read about you in their own language. It is also a great way to
+improve SEO. Leveraging machine translation is a great way to easily get more customers.</p>
+</div>
+</div>
+</div>
+</section>
+<footer class="modal-card-foot"></footer>
+</div>
+</div>
+<div id="code-modal" class="modal">
+<div class="modal-background" onClick="htmx.toggleClass(htmx.find('#code-modal'), 'is-active');"></div>
+<div class="modal-card" style="width:90%; max-width:1000px">
+<header class="modal-card-head">
+<p class="modal-card-title">Python Code <i class="fab fa-python"></i></p>
+<button class="delete" aria-label="close" onClick="htmx.toggleClass(htmx.find('#code-modal'), 'is-active');"></button>
+</header>
+<section class="modal-card-body" style="text-align: left;">
+<pre style="white-space: pre-wrap;" class="my-5 has-background-dark has-text-white"><span id="code-copied-ok" class="is-size-5" style="position:absolute; right:75px; top:130px; display:none" title="Code copied!"><i class="fas fa-check"></i></span><span class="is-size-4" style="position:absolute; right:45px; top:125px; cursor: pointer;" title="Copy code to clipboard" onclick="copyCode()"><i class="far fa-copy"></i></span><code id="code"><span style="color:#66d9ef">import</span> xlib
+
+client = xlib.Client(<span style="color:#a6e22e">"<span id="code-model">model1</span>"</span>, <span style="color:#a6e22e">"<span id="code-token"></span>"</span>, gpu=<span id="code-gpu" style="color:#ae81ff">False</span>)
+client.translation(<span style="color:#a6e22e">"<span id="code-body">John Doe has been working for Microsoft in Seattle since 1999.</span>"</span><span id="code-languages">, source=<span style="color:#a6e22e">"<span id="code-source">eng_Latn</span>"</span>, target=<span style="color:#a6e22e">"<span id="code-target">ace_Arab</span>"</span></span>)</code></pre>
+</section>
+<footer class="modal-card-foot"></footer>
+</div>
+</div>
+
+<script>
+
+    function run() {
+        var text = document.getElementById("id_body").value;
+        console.log(text);
+        // Make a request for a user with a given ID
+axios.get('/translate?text='+text)
+  .then(function (response) {
+    // handle success
+    console.log(response.data.message.output);
+    document.getElementById("id_result").value = response.data.message.output;
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+
+    }
+
+    function copyCode() {
+        var code = document.getElementById("code");
+        var cleanCode = code.innerHTML.replaceAll(/<span.*?>/g, '').replaceAll('</span>','')
+        navigator.clipboard.writeText(cleanCode);
+        var codeCopiedOk = document.getElementById("code-copied-ok");
+        codeCopiedOk.style.display='block';
+    } 
+
+    function updateCodeModel(){
+        var idModel = document.getElementById('id_model')
+        var dest = document.getElementById('code-model');
+        dest.innerHTML = idModel.value;
+
+        if (idModel.value.includes("opus-mt")) {
+            document.getElementById('code-languages').style.display = 'none';
+            document.getElementById('languages-frame').style.display = 'none';
+        } else {
+            document.getElementById('code-languages').style.display = 'inline';
+            document.getElementById('languages-frame').style.display = 'flex';
+        }
+    }
+    document.getElementById('id_model').onchange = updateCodeModel;
+
+    function updateCodeToken(){
+        var source = document.getElementById('id_token');
+        var dest = document.getElementById('code-token');
+        dest.innerHTML = source.value;
+    }
+    document.getElementById('id_token').onkeyup = updateCodeToken;
+
+
+    function updateCodeBody(){
+        var source = document.getElementById('id_body');
+        var dest = document.getElementById('code-body');
+        dest.innerHTML = source.value;
+    }
+    document.getElementById('id_body').onkeyup = updateCodeBody;
+
+    function updateCodeSource(){
+        var source = document.getElementById('id_source');
+        var dest = document.getElementById('code-source');
+        dest.innerHTML = source.value;
+    }
+    document.getElementById('id_source').onchange = updateCodeSource;
+
+    function updateCodeTarget(){
+        var source = document.getElementById('id_target');
+        var dest = document.getElementById('code-target');
+        dest.innerHTML = source.value;
+    }
+    document.getElementById('id_target').onchange = updateCodeTarget;
+
+</script>
+</div>
+</div>
+</div>
+</section>
+
+</body>
+
+</html>
