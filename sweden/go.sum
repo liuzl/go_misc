@@ -1,0 +1,6 @@
+github.com/frozzare/go v1.0.0 h1:aMEQSDLZ9RRodFq03p9eFi10Oxg4YNek29a0ul86tc4=
+github.com/frozzare/go v1.0.0/go.mod h1:aF04gf7/Kbc1nTC3XyPCgWEBIpnRjhsGQ1aj4bCVxxk=
+github.com/frozzare/go-assert v1.1.0 h1:JaWK+Q2bFyVyE8dpUNtqh0P9CFAwtQhTiKZiwJ8R+Mc=
+github.com/frozzare/go-assert v1.1.0/go.mod h1:qaUtLVkASIEqsHEn8xhGKLh+24s1y07Y88Z5mNyHgWU=
+github.com/personnummer/go/v3 v3.0.2 h1:tBm+nBmD6NhfazoMV9oUDxXZHMghYhKEmWsnPcJsABQ=
+github.com/personnummer/go/v3 v3.0.2/go.mod h1:VGi8cG/kgQ9c4p8qCTRWxV1IAWUpAf2VF6137TL/Oq0=
