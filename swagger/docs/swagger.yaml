@@ -2,20 +2,30 @@ basePath: /
 host: 127.0.0.1:1323
 info:
   contact:
-    email: support@swagger.io
+    email: liang@zliu.org
     name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server Petstore server.
+  description: This is a sample server golang server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+  title: Go API
   version: "1.0"
 paths:
   /echo:
-    post:
+    get:
+      consumes:
+      - application/json
       description: echo
+      parameters:
+      - description: raw request
+        in: body
+        name: request
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
       responses:
         "200":
           description: Raw request
@@ -34,4 +44,39 @@ paths:
           schema:
             type: string
       summary: echo back the http raw request
+      tags:
+      - ops
+    post:
+      consumes:
+      - application/json
+      description: echo
+      parameters:
+      - description: raw request
+        in: body
+        name: request
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Raw request
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: echo back the http raw request
+      tags:
+      - ops
 swagger: "2.0"

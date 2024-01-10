@@ -16,11 +16,16 @@ import (
 // echo request godoc
 // @Summary echo back the http raw request
 // @Description echo
+// @Tags ops
+// @Accept  json
+// @Produce  json
+// @Param request body interface{} true "raw request"
 // @Success 200 {string} string "Raw request"
 // @Failure 400 {string} string "Bad request"
 // @Failure 404 {string} string "Not found"
 // @Failure 500 {string} string "Internal server error"
 // @Router /echo [post] "echo"
+// @Router /echo [get] "echo"
 func echo(w http.ResponseWriter, r *http.Request) {
 	dump, err := httputil.DumpRequest(r, true)
 	if err != nil {
@@ -31,14 +36,13 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	w.Write(dump)
 }
 
-// @title Swagger Example API
+// @title Go API
 // @version 1.0
-// @description This is a sample server Petstore server.
+// @description This is a sample server golang server.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
+// @contact.email liang@zliu.org
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
