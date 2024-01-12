@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
 	data, err := retry.DoWithData(
 		func() (string, error) {
 			if rand.Intn(100) < 50 {
@@ -20,6 +19,7 @@ func main() {
 			}
 		},
 		retry.Attempts(5),
+		retry.Delay(1*time.Second),
 	)
 
 	fmt.Println(data)
