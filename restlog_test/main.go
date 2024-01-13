@@ -31,9 +31,11 @@ func main() {
 	}))
 
 	go func() {
+		data := map[string]interface{}{"status": 500, "item_id": "req.ItemID", "message": "no choices"}
 		for {
 			glog.Info("hello")
-			rest.Log().Info().Msg("GO FUNC")
+			//rest.Log().Info().Msg("GO FUNC")
+			rest.Log().Info().Interface("data", data).Msg("GO FUNC")
 			time.Sleep(time.Second * 5)
 		}
 	}()
