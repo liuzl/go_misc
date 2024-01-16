@@ -52,6 +52,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := chi.NewRouter()
 
+	r.Handle("/", http.FileServer(http.Dir(".")))
+
 	r.Get("/swagger/*", httpswagger.Handler(
 		httpswagger.URL("http://127.0.0.1:1323/swagger/doc.json"), //The url pointing to API definition
 	))
