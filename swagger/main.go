@@ -47,7 +47,6 @@ func echo(w http.ResponseWriter, r *http.Request) {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host 127.0.0.1:1323
 // @BasePath /
 func main() {
 	r := chi.NewRouter()
@@ -55,7 +54,7 @@ func main() {
 	r.Handle("/", http.FileServer(http.Dir(".")))
 
 	r.Get("/swagger/*", httpswagger.Handler(
-		httpswagger.URL("http://127.0.0.1:1323/swagger/doc.json"), //The url pointing to API definition
+		httpswagger.URL("/swagger/doc.json"), //The url pointing to API definition
 	))
 
 	r.Handle("/echo", rest.WithLog(echo))
