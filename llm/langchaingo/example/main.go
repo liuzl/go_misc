@@ -7,7 +7,6 @@ import (
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/llms/openai"
 )
 
@@ -17,10 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 	ctx := context.Background()
-	completion, err := llm.Call(ctx, "You should response in Chinese. The first man to walk on the moon",
-		llms.WithTemperature(0.8),
-		llms.WithStopWords([]string{"Armstrong"}),
-	)
+	completion, err := llm.Call(ctx, "You should response in Chinese. 写一首关于北京炎炎夏日的诗。")
 	if err != nil {
 		log.Fatal(err)
 	}
