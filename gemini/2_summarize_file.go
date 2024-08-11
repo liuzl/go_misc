@@ -38,7 +38,8 @@ func main() {
 	model := client.GenerativeModel("gemini-1.5-flash")
 	prompt := []genai.Part{
 		genai.FileData{URI: "https://generativelanguage.googleapis.com/v1beta/files/suybti91qili"},
-		genai.Text("Can you summarize this document as a bulleted list? Please response in Chinese."),
+		//genai.Text("Can you summarize this document as a bulleted list? Please response in Chinese."),
+		genai.Text("详细讲解一下最后一道题。"),
 	}
 	resp, err := model.GenerateContent(ctx, prompt...)
 	if err != nil {
