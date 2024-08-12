@@ -25,7 +25,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(2),
+	Args: cobra.RangeArgs(1, 2),
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 		client, err := genai.NewClient(ctx,
@@ -38,9 +38,14 @@ to quickly create a Cobra application.`,
 		defer client.Close()
 
 		model := client.GenerativeModel("gemini-1.5-flash")
-		prompt := []genai.Part{
-			genai.FileData{URI: args[0]},
-			genai.Text(args[1]),
+		var prompt []genai.Part
+		if len(args) == 1 {
+			prompt = []genai.Part{genai.Text(args[0])}
+		} else {
+			prompt = []genai.Part{
+				genai.FileData{URI: args[0]},
+				genai.Text(args[1]),
+			}
 		}
 		resp, err := model.GenerateContent(ctx, prompt...)
 		if err != nil {
