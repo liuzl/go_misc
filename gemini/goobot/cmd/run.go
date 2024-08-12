@@ -38,6 +38,9 @@ to quickly create a Cobra application.`,
 		defer client.Close()
 
 		model := client.GenerativeModel("gemini-1.5-flash")
+		model.Tools = []*genai.Tool{
+			{CodeExecution: &genai.CodeExecution{}},
+		}
 		var prompt []genai.Part
 		if len(args) == 1 {
 			prompt = []genai.Part{genai.Text(args[0])}
