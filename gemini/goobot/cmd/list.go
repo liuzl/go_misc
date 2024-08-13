@@ -19,13 +19,20 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "List files associated with the Gemini AI model",
+	Long: `This command lists all files associated with your Gemini AI model.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+It displays information about each file, including:
+- URI: The unique identifier for the file
+- Name: The file name
+- DisplayName: The human-readable name of the file
+
+This command is useful for managing and reviewing the files you've uploaded
+or associated with your Gemini AI model, which can be used as context
+for prompts in other commands like 'run'.
+
+Usage:
+  gemini-cli list`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 		client, err := genai.NewClient(ctx,

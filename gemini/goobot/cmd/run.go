@@ -18,13 +18,19 @@ import (
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Run a prompt through the Gemini AI model",
+	Long: `This command allows you to run a prompt through the Gemini AI model.
+It accepts one or two arguments:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+1. With one argument: The argument is treated as the prompt text.
+   Example: run "What is the capital of France?"
+
+2. With two arguments: The first argument is a file path, and the second is the prompt text.
+   The contents of the file will be used as context for the prompt.
+   Example: run /path/to/file.txt "Summarize this document"
+
+The command uses the Gemini 1.5 Flash model and supports code execution as a tool.
+The response from the AI model will be printed to the console.`,
 	Args: cobra.RangeArgs(1, 2),
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
