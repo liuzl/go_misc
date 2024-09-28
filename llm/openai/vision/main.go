@@ -22,7 +22,7 @@ func main() {
 				{
 					Role: openai.ChatMessageRoleUser,
 					MultiContent: []openai.ChatMessagePart{
-						{Type: openai.ChatMessagePartTypeText, Text: "Please describe this image"},
+						{Type: openai.ChatMessagePartTypeText, Text: "Please describe this image in Chinese"},
 						{Type: openai.ChatMessagePartTypeImageURL, ImageURL: &openai.ChatMessageImageURL{URL: url}},
 					},
 				},
