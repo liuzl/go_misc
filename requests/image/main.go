@@ -5,6 +5,10 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"image"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
 	"net/http"
 	"strings"
 	"time"
@@ -52,6 +56,28 @@ func getInlineImageData(url string) (string, error) {
 	if buf.Len() == 0 {
 		return "", fmt.Errorf("downloaded image is empty")
 	}
+
+	// 获取文件大小
+	fileSize := buf.Len()
+	fmt.Printf("Original file size: %d bytes\n", fileSize)
+	fmt.Printf("Content-Type: %s\n", contentType)
+
+	// 尝试获取图片格式
+	_, imgFormat, err := image.DecodeConfig(bytes.NewReader(buf.Bytes()))
+	if err != nil {
+		fmt.Printf("Warning: Unable to determine image format: %v\n", err)
+	} else {
+		fmt.Printf("Image format: %s\n", imgFormat)
+	}
+
+	// 获取图片尺寸
+	img, _, err := image.Decode(bytes.NewReader(buf.Bytes()))
+	if err != nil {
+		return "", fmt.Errorf("failed to decode image: %w", err)
+	}
+	bounds := img.Bounds()
+	width, height := bounds.Max.X, bounds.Max.Y
+	fmt.Printf("Original image dimensions: %dx%d pixels\n", width, height)
 
 	// 获取图片类型
 	imageType := contentType[6:] // 去掉 "image/" 前缀
