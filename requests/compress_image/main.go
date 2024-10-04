@@ -3,16 +3,16 @@ package main
 import (
 	"fmt"
 	"image"
-	_ "image/gif"
+	"image/gif"
 	"image/jpeg"
-	_ "image/png"
+	"image/png"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/chai2010/webp"
 	"github.com/nfnt/resize"
-	_ "golang.org/x/image/webp"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 
 	// 生成输出文件名
 	ext := filepath.Ext(inputFileName)
-	outputFileName := strings.TrimSuffix(inputFileName, ext) + "output" + ext
+	outputFileName := strings.TrimSuffix(inputFileName, ext) + "_output" + ext
 
 	// 打开原始图片
 	file, err := os.Open(inputFileName)
@@ -36,7 +36,11 @@ func main() {
 	}
 	defer file.Close()
 
-	img, _, err := image.Decode(file)
+	// 解码图片并获取格式
+	var img image.Image
+	var format string
+
+	img, format, err = image.Decode(file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,8 +75,22 @@ func main() {
 	}
 	defer out.Close()
 
-	// 将调整大小后的图片编码为 JPEG 并保存
-	jpeg.Encode(out, resized, &jpeg.Options{Quality: 85})
+	// 根据原始格式编码并保存图片
+	switch format {
+	case "jpeg":
+		jpeg.Encode(out, resized, &jpeg.Options{Quality: 80})
+	case "png":
+		png.Encode(out, resized)
+	case "gif":
+		gif.Encode(out, resized, &gif.Options{})
+	case "webp":
+		err = webp.Encode(out, resized, &webp.Options{Lossless: false, Quality: 80})
+		if err != nil {
+			log.Fatal(err)
+		}
+	default:
+		log.Fatalf("Unsupported image format: %s", format)
+	}
 
 	// 获取转换后的图片尺寸
 	newWidth := resized.Bounds().Dx()
