@@ -16,13 +16,18 @@ type User struct {
 
 func init() {
 	var err error
-	DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	dns := fmt.Sprintf("%s?_foreign_keys=true", "test.db")
+	DB, err = gorm.Open(sqlite.Open(dns), &gorm.Config{PrepareStmt: true})
 	if err != nil {
 		panic("failed to connect database")
 	}
 }
 
 func main() {
-	DB.AutoMigrate(&User{})
+	if DB.AutoMigrate(&User{}) != nil {
+		fmt.Println("failed to migrate")
+		return
+	}
+	DB.Create(&User{Name: "John"})
 	fmt.Println("Hello, World!")
 }
